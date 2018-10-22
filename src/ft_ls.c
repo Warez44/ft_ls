@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 10:01:28 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/20 13:52:02 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/21 13:17:05 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_filenames(char **filenames, unsigned char flag, char *directory)
 	DIR				*dir;
 	struct dirent	*dp;
 	char			*display;
-	char			*temp;
 
 	display = ft_strnew(1);
 	if (!(dir = opendir(directory)))
@@ -28,48 +27,15 @@ void	ft_filenames(char **filenames, unsigned char flag, char *directory)
 	}
 	while ((dp = readdir(dir)) != NULL)
 	{
-		temp = display;
 		if (dp->d_name[0] != '.' || (flag & 2))
 		{
-			display = ft_strjoin(display, dp->d_name);
-			free(temp);
-			temp = display;
-			display = ft_strjoin(display, "\n");
-			free(temp);
+			display = ft_freestrjoin(display, dp->d_name);
+			display = ft_freestrjoin(display, "\n");
 		}
 	}
 	*filenames = display;
 }
 
-char	*ft_
-
-char	*ft_params(char *filename)
-{
-	char *str;
-	char *temp;
-
-	if(!(str = ft_strnew(1)))
-		return (NULL);
-	
-}
-
-void	ft_lflag(char **tab)
-{
-	char *temp;
-	char *str;
-	while (*tab)
-	{
-		if(!(str = ft_params(*tab)))
-		{
-			ft_tabdel(tab);
-			return ;
-		}
-		temp = *tab;
-		*tab = ft_strjoin(str, tab);
-		free(temp);
-		tab++;
-	}
-}
 
 void	ft_ls(char *directory, unsigned char flags)
 {
@@ -78,8 +44,11 @@ void	ft_ls(char *directory, unsigned char flags)
 
 	ft_filenames(&filenames, flags, directory);
 	tab = ft_filesorting(filenames, flags);
+	if (flags & 1)
+		ft_lflag(tab);
 	while (*tab)
 		ft_putendl(*(tab++));
+	ft_tabdel(tab);
 }
 
 int		main(int argc, char **argv)

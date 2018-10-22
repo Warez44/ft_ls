@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 15:12:52 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/20 13:52:03 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/21 15:15:13 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ void	ft_sort(char **argv, int (*f)(const char *, const char *))
 		}
 		i++;
 	}
+}
+
+char	*ft_freestrjoin(char *a, char *b)
+{
+	char *ret;
+
+	ret = ft_strjoin(a, b);
+	free(a);
+	return (ret);
 }
 
 void	ft_revsort(char **argv, int (*f)(const char *, const char *))
@@ -66,5 +75,4 @@ void	ft_tabdel(char **tab)
 	{
 		free(*(tab++));
 	}
-	free(tab);
 }
