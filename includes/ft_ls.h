@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 13:00:38 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/22 09:11:31 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/22 09:44:43 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,21 @@
 # include <grp.h>
 # include <time.h>
 
-void	ft_filenames(char **buf, unsigned char flag, char *str);
+struct s_params
+{
+	struct stat statistics;
+	int len;
+	unsigned int maxlnk;
+	unsigned long maxsiz;
+	int maxuid;
+	int maxgid;
+	char permission[14];
+	char *uid;
+	char *gid;
+	char *mtime;
+};
+
+void	ft_filenames(char **tab, unsigned char flag, DIR *dir);
 void	ft_flagerror(char t);
 unsigned char ft_case(char c, unsigned char flags);
 unsigned char ft_flag(int argc, char **argv);
@@ -44,20 +58,13 @@ void	ft_lflag(char **tab);
 int		ft_len(unsigned int nb);
 char	*uid_name(uid_t uid);
 char	*gid_name(gid_t gid);
-unsigned long	ft_maxsiz(char **tab);
-unsigned int	ft_maxlnk(char **tab);
+unsigned long	ft_maxsiz(struct s_params *parameters);
+unsigned int	ft_maxlnk(struct s_params *parameters);
+unsigned int	ft_maxuid(char **tab);
 int		ft_longlen(unsigned long n);
 char	*ft_time(const time_t *t);
-
-struc	s_params
-{
-	int	maxsiz;
-	int	maxlnk;
-	int maxuid;
-	int maxgid;
-	char *filename;
-	char *uid_name;
-	char *gid_name;
-};
+struct s_params *ft_getparams(char **tab, struct s_params *parameters);
+char	*ft_params(struct s_params param);
+void	ft_strformat(char *str, char *buf, int maxlen);
 
 #endif

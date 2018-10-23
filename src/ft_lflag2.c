@@ -6,43 +6,11 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 07:26:22 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/22 09:11:34 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/22 09:45:57 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_ls.h>
-
-unsigned int	ft_maxlnk(char **tab)
-{
-	unsigned int max;
-	struct stat s_stat;
-
-	max = 0;
-	while (*tab)
-	{
-		stat(*tab, &s_stat);
-		if ((unsigned int)s_stat.st_nlink > max)
-			max = (unsigned int)s_stat.st_nlink;
-		tab++;
-	}
-	return (max);
-}
-
-unsigned long	ft_maxsiz(char **tab)
-{
-	unsigned long max;
-	struct stat s_stat;
-
-	max = 0;
-	while (*tab)
-	{
-		stat(*tab, &s_stat);
-		if ((unsigned long)s_stat.st_size > max)
-			max = (unsigned long)s_stat.st_size;
-		tab++;
-	}
-	return (max);
-}
 
 char	*ft_time(const time_t *stat_time)
 {

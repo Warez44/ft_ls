@@ -12,37 +12,40 @@
 
 #include <ft_ls.h>
 
-void	ft_filenames(char **filenames, unsigned char flag, char *directory)
+void	ft_filenames(char **filenames, unsigned char flag, DIR *dir)
 {
-	DIR				*dir;
 	struct dirent	*dp;
 	char			*display;
 
 	display = ft_strnew(1);
+	while ((dp = readdir(dir)) != NULL)
+	{
+		if (dp->d_name[0] != '.' || (flag & 2))
+		{
+			display = ft_freestrjoin(ft_freestrjoin(display, dp->d_name), "\n");
+			if (!display)
+			{
+				free(display);
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
+	*filenames = display;
+}
+
+void	ft_ls(char *directory, unsigned char flags)
+{
+	char *filenames;
+	char **tab;
+	DIR *dir;
+
 	if (!(dir = opendir(directory)))
 	{
 		ft_putstr_fd("ls: ", 2);
 		perror(directory);
 		return ;
 	}
-	while ((dp = readdir(dir)) != NULL)
-	{
-		if (dp->d_name[0] != '.' || (flag & 2))
-		{
-			display = ft_freestrjoin(display, dp->d_name);
-			display = ft_freestrjoin(display, "\n");
-		}
-	}
-	*filenames = display;
-}
-
-
-void	ft_ls(char *directory, unsigned char flags)
-{
-	char *filenames;
-	char **tab;
-
-	ft_filenames(&filenames, flags, directory);
+	ft_filenames(&filenames, flags, dir);
 	tab = ft_filesorting(filenames, flags);
 	if (flags & 1)
 		ft_lflag(tab);
@@ -62,6 +65,6 @@ int		main(int argc, char **argv)
 	argv++;
 	while (*argv && **argv == '-')
 		argv++;
-	directory = (*argv) ? ft_strdup(*argv) : ft_strdup(".");
+	directory = (*argv && argc != 1) ? ft_strdup(*argv) : ft_strdup(".");
 	ft_ls(directory, flags);
 }

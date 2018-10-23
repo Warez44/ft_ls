@@ -5,14 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 09:01:50 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/22 09:03:21 by clingier         ###   ########.fr       */
+/*   Created: 2018/10/22 12:21:59 by clingier          #+#    #+#             */
+/*   Updated: 2018/10/22 12:22:24 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_ls.h>
 
-char	*ft_strformat(char *str, char *buf)
+void	ft_strformat(char *buf, char *str, int maxlen)
 {
-	ft_memset(buf, ' ', ft_strlen(buf));
+	int i;
+
+	i = 0;
+	while (i < maxlen)
+	{
+		buf[i] = ' ';
+		i++;
+	}
+	i = 0;
+	while (str[i])
+	{
+		buf[i] = str[i];
+		i++;
+	}
+	buf[maxlen] = '\0';
 }
