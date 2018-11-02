@@ -39,7 +39,7 @@ struct s_params
 	char *mtime;
 };
 
-void	ft_filenames(char **tab, unsigned char flag, DIR *dir);
+void	ft_filenames(char **tab, unsigned char flag, char *dir);
 void	ft_flagerror(char t);
 unsigned char ft_case(char c, unsigned char flags);
 unsigned char ft_flag(int argc, char **argv);
@@ -66,5 +66,7 @@ char	*ft_time(const time_t *t);
 struct s_params *ft_getparams(char **tab, struct s_params *parameters);
 char	*ft_params(struct s_params param);
 void	ft_strformat(char *str, char *buf, int maxlen);
+void	ft_getstatistics(char **tab, struct s_params *parameters);
+
 
 #endif

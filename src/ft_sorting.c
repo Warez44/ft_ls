@@ -30,7 +30,6 @@ char	**ft_filesorting(char *filenames, unsigned char flags)
 	int			(*sort_function)(const char *, const char *);
 
 	tab = ft_strsplit(filenames, '\n');
-	free(filenames);
 	sort_function = (flags & 16) ? &ft_timecmp : &ft_strcmp;
 	if (flags & 8)
 		ft_revsort(tab, sort_function);
