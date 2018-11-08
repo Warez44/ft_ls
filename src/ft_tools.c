@@ -12,23 +12,23 @@
 
 #include <ft_ls.h>
 
-void	ft_sort(char **argv, int (*f)(const char *, const char *))
+void	ft_sort(t_file *files, int (*f)(const char *, const char *))
 {
 	int		i;
 	int		j;
-	char	*temp;
+	t_file *temp;
 
 	i = 0;
-	while (argv[i])
+	while (files[i])
 	{
 		j = i + 1;
-		while (argv[j])
+		while (files[j])
 		{
-			if (f(argv[i], argv[j]) > 0)
+			if (f(files[i].directory, files[j].directory) > 0)
 			{
-				temp = argv[i];
-				argv[i] = argv[j];
-				argv[j] = temp;
+				temp = files[i];
+				files[i] = files[j]g;
+				files[j] = temp;
 			}
 			j++;
 		}
@@ -36,13 +36,10 @@ void	ft_sort(char **argv, int (*f)(const char *, const char *))
 	}
 }
 
-char	*ft_freestrjoin(char *a, char *b)
+void ft_puttab(char **tab)
 {
-	char *ret;
-
-	ret = ft_strjoin(a, b);
-	free(a);
-	return (ret);
+	while(*tab)
+		ft_putendl(*(tab++));
 }
 
 void	ft_revsort(char **argv, int (*f)(const char *, const char *))

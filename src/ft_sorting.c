@@ -24,16 +24,57 @@ int		ft_timecmp(const char *file1, const char *file2)
 	return (-1);
 }
 
-char	**ft_filesorting(char *filenames, unsigned char flags)
+t_file *ft_filesorting(t_file *files, unsigned char flags)
 {
-	char		**tab;
 	int			(*sort_function)(const char *, const char *);
+	char *temp;
 
-	tab = ft_strsplit(filenames, '\n');
 	sort_function = (flags & 16) ? &ft_timecmp : &ft_strcmp;
 	if (flags & 8)
-		ft_revsort(tab, sort_function);
+		ft_revsort(files, sort_function);
 	else
-		ft_sort(tab, sort_function);
+		ft_sort(files, sort_function);
 	return (tab);
+}
+
+int		number_of_files(char *directory, unsigned char flags)
+{
+	int len;
+	DIR *dir;
+	struct dirent	*dp;
+
+
+	len = 0;
+	dir = opendir(directory);
+	while ((dp = readdir(dir)) != NULL)
+		if (dp->d_name[0] != '.' || (flags & 2))
+		len++;
+	closedir(dir);
+	return (len);
+}
+
+t_file *ft_getfiles(unsigned char flags, char *directory)
+{
+	struct dirent	*dp;
+	DIR *dir;
+	int len;
+	t_file *files;
+	t_file *cp;
+
+	if ((!(dir = opendir(directory))))
+		nodirectory(directory);
+	files = (t_file *)malloc(sizeof(*files) * number_of_files(directory, flags));
+	cp = files;
+	while ((dp = readdir(dir)) != NULL)
+	{
+		if (dp->d_name[0] != '.' || (flags & 2))
+		{
+			ft_malfailed(files->filename = ft_strdup(dp->d_name));
+			ft_malfailed(files->file_path = ft_strdup(path_finder(directory, files->filename)));
+			files++;
+		}
+	}
+	//files = ft_filesorting(cp, flags, directory);
+	closedir(dir);
+	return(cp);
 }

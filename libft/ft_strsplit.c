@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 19:54:44 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/19 10:10:05 by clingier         ###   ########.fr       */
+/*   Updated: 2018/10/19 12:05:03 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@ static int	ft_num_word(char const *str, int c)
 	return (num);
 }
 
+static int	ft_malcheck(char **ar, int j)
+{
+	if (ar[j] == NULL)
+	{
+		while (j)
+			free(ar[j--]);
+		free(ar);
+		return (1);
+	}
+	return (0);
+}
+
 char		**ft_strsplit(char const *s, char c)
 {
 	size_t	i;
@@ -59,13 +71,12 @@ char		**ft_strsplit(char const *s, char c)
 			i++;
 		else
 		{
-			if (!(ar[j++] = ft_strsub(s, i, ft_len(s, i, c))))
-				while (*ar)
-					free(ar++);
+			ar[j] = ft_strsub(s, i, ft_len(s, i, c));
+			if (ft_malcheck(ar, j++))
+				return (NULL);
 			i = i + ft_len(s, i, c);
 		}
 	}
-	if (ar)
-		ar[j] = 0;
+	ar[j] = 0;
 	return (ar);
 }

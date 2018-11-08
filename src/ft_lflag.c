@@ -52,75 +52,66 @@ char	*uid_name(uid_t uid)
 	return(pwd->pw_name);
 }
 
-/*char	*ft_params(char *filename, int maxlnk_format, int maxsiz_format)
-{
-	char *str;
-	char lnk_buf[maxlnk_format + 2];
-	char siz_buf[maxsiz_format + 2];
-	char uid_buf[maxuid_format];
-	char *temp;
-	struct stat stat_s;
+// char	*ft_params(char *filename, int maxlnk_format, int maxsiz_format)
+// {
+// 	char *str;
+// 	char lnk_buf[maxlnk_format + 2];
+// 	char siz_buf[maxsiz_format + 2];
+// 	char uid_buf[maxuid_format];
+// 	char *temp;
+// 	struct stat stat_s;
+//
+// 	if(!(str = ft_strnew(13)))
+// 		return (NULL);
+// 	stat(filename, &stat_s);
+// 	uid_buf[maxuid_format - 1] = '\0';
+// 	ft_strpermission(stat_s.st_mode, str);
+// 	ft_unsigneditoa((unsigned int)stat_s.st_nlink, maxlnk_format, lnk_buf);
+// 	str = ft_freestrjoin(str,lnk_buf);
+// 	uid_buf = ft_strformat(uid_name(stat_s.st_uid, uid_buf);
+// 	str = ft_freestrjoin(str, uid_buf);
+// 	str = ft_freestrjoin(str, "  ");
+// 	str = ft_freestrjoin(str, gid_name(stat_s.st_gid));
+// 	str = ft_freestrjoin(str, "  ");
+// 	ft_unsigneditoa((unsigned long)stat_s.st_size, maxsiz_format, siz_buf);
+// 	str = ft_freestrjoin(str, siz_buf);
+// 	str = ft_freestrjoin(str, ft_time(&stat_s.st_mtime));
+// 	return (str);
+// }
 
-	if(!(str = ft_strnew(13)))
-		return (NULL);
-	stat(filename, &stat_s);
-	uid_buf[maxuid_format - 1] = '\0';
-	ft_strpermission(stat_s.st_mode, str);
-	ft_unsigneditoa((unsigned int)stat_s.st_nlink, maxlnk_format, lnk_buf);
-	str = ft_freestrjoin(str,lnk_buf);
-	uid_buf = ft_strformat(uid_name(stat_s.st_uid, uid_buf);
-	str = ft_freestrjoin(str, uid_buf);
-	str = ft_freestrjoin(str, "  ");
-	str = ft_freestrjoin(str, gid_name(stat_s.st_gid));
-	str = ft_freestrjoin(str, "  ");
-	ft_unsigneditoa((unsigned long)stat_s.st_size, maxsiz_format, siz_buf);
-	str = ft_freestrjoin(str, siz_buf);
-	str = ft_freestrjoin(str, ft_time(&stat_s.st_mtime));
-	return (str);
-}*/
-
-char	*ft_params(struct s_params param)
+void    ft_params(struct s_params param)
 {
 	char lnk_buf[param.maxlnk + 2];
 	char siz_buf[param.maxsiz + 2];
 	char gid_buf[param.maxgid + 1];
 	char uid_buf[param.maxuid + 1];
-	char *str;
 
-	str = ft_strnew(1);
-	str = ft_freestrjoin(str, param.permission);
+	ft_putstr(param.permission);
 	ft_unsigneditoa((unsigned int)param.statistics.st_nlink, param.maxlnk, lnk_buf);
-	str = ft_freestrjoin(str, lnk_buf);
+	ft_putstr(lnk_buf);
 	ft_strformat(uid_buf, param.uid, param.maxuid);
-	str = ft_freestrjoin(str, uid_buf);
-	str = ft_freestrjoin(str, "  ");
+	ft_putstr(uid_buf);
+	ft_putstr("  ");
 	ft_strformat(gid_buf, param.gid, param.maxgid);
-	str = ft_freestrjoin(str, gid_buf);
-	str = ft_freestrjoin(str, "  ");
+	ft_putstr(gid_buf);
+	ft_putstr("  ");
 	ft_unsigneditoa((unsigned long)param.statistics.st_size, param.maxsiz, siz_buf);
-	str = ft_freestrjoin(str, siz_buf);
-	str = ft_freestrjoin(str, param.mtime);
-	return (str);
+	ft_putstr(siz_buf);
+	ft_putstr(ft_time(&param.statistics.st_mtime));
 }
 
-void	ft_lflag(char **tab)
+void	ft_lflag(char **tab, char *directory)
 {
-	char *temp;
-	char *str;
 	struct s_params *parameters;
-	struct s_params *cp;
-	char buf[60];
+	int i;
 
+	i = 0;
 	parameters = (struct s_params *)malloc(sizeof(*parameters) * ft_tablen(tab));
-	parameters = ft_getparams(tab, parameters);
-	cp = parameters;
-	while (*tab)
+	parameters = ft_getparams(directory, tab, parameters);
+	while (tab[i])
 	{
-		str = ft_params(*parameters);
-		temp = *tab;
-		*tab = ft_freestrjoin(str, *tab);
-		free(temp);
-		parameters++;
-		tab++;
+		ft_params(parameters[i]);
+		ft_putendl(tab[i]);
+		i++;
 	}
 }

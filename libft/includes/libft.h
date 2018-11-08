@@ -6,7 +6,7 @@
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/02 07:20:04 by clingier          #+#    #+#             */
-/*   Updated: 2018/10/08 09:25:28 by clingier         ###   ########.fr       */
+/*   Updated: 2018/11/03 14:54:47 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ char				*ft_strdup(const char *s1);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
 char				*ft_strcat(char *dest, const char *src);
-char				*ft_strncat(char *dest, char *src, size_t n);
-size_t				ft_strlcat(char *dest, char *src, size_t n);
-char				*ft_strchr(char *str, int n);
-char				*ft_strrchr(char *str, int n);
-char				*ft_strstr(char *str, char *sub);
-char				*ft_strnstr(char *str, char *sub, size_t n);
+char				*ft_strncat(char *dest, const char *src, size_t n);
+size_t				ft_strlcat(char *dest, const char *src, size_t n);
+char				*ft_strchr(const char *str, int n);
+char				*ft_strrchr(const char *str, int n);
+char				*ft_strstr(const char *str, const char *sub);
+char				*ft_strnstr(const char *str, const char *sub, size_t n);
 int					ft_strcmp(const char *str1, const char *str2);
 int					ft_strncmp(const char *str1, const char *str2, size_t n);
 int					ft_atoi(const char *str);

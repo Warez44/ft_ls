@@ -12,64 +12,56 @@
 
 #include <ft_ls.h>
 
-void	ft_filenames(char **filenames, unsigned char flag, char *directory)
-{
-	struct dirent	*dp;
-	DIR *dir;
+// void	ft_filenames(char **filenames, unsigned char flag, char *directory)
+// {
+// 	struct dirent	*dp;
+// 	DIR *dir;
+//
+// 	if (!(dir = opendir(directory)))
+// 	{
+// 		ft_putstr_fd("ls: ", 2);
+// 		perror(directory);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	ft_malfailed(*filenames = ft_strnew(1));
+// 	while ((dp = readdir(dir)) != NULL)
+// 	{
+// 		if (dp->d_name[0] != '.' || (flag & 2))
+// 		{
+// 			*filenames = ft_freestrjoin(ft_freestrjoin(*filenames, dp->d_name), "\n");
+// 			ft_malfailed((void *)filenames);
+// 		}
+// 	}
+// 	closedir(dir);
+// }
 
-	if (!(dir = opendir(directory)))
-	{
-		ft_putstr_fd("ls: ", 2);
-		perror(directory);
-		exit(EXIT_FAILURE);
-	}
-	*filenames = ft_strnew(1);
-	while ((dp = readdir(dir)) != NULL)
-	{
-		if (dp->d_name[0] != '.' || (flag & 2))
-		{
-			*filenames = ft_freestrjoin(ft_freestrjoin(*filenames, dp->d_name), "\n");
-			if (!*filenames)
-			{
-				free(*filenames);
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
-	closedir(dir);
-}
 
 void	ft_ls(char *directory, unsigned char flags)
 {
-	char *filenames;
 	struct s_params *parameters;
+	struct s_file *files;
 	char **tab;
-	char **R_tab;
+	char *path;
 
-
-	ft_filenames(&filenames, flags, directory);
-	tab = ft_filesorting(filenames, flags);
+	files = ft_getfiles(flags, directory);
 	if (flags & 1)
-		ft_lflag(tab);
-	while (*tab)
-		ft_putendl(*(tab++));
-	ft_tabdel(tab);
+		ft_lflag(tab, directory);
+	(!(flags & 1)) ? ft_puttab(tab) : 0;
 	if (flags & 4)
 	{
-		R_tab = ft_filesorting(filenames, flags);
-		parameters = (struct s_params*)malloc(sizeof(struct s_params) * ft_tablen(R_tab));
-		ft_getstatistics(R_tab, parameters);
-		while (*R_tab)
+		parameters = (struct s_params*)malloc(sizeof(struct s_params) * ft_tablen(tab));
+		ft_getstatistics(tab, parameters, directory);
+		while (*tab)
 		{
 			if (S_ISDIR(parameters->statistics.st_mode))
 			{
-				ft_putstr(*R_tab);
+				path = path_finder(directory, *tab);
+				ft_putstr(path);
 				ft_putendl(":");
-				ft_ls(*R_tab, flags);
-				break;
+				ft_ls(path, flags);
 			}
 			parameters++;
-			R_tab++;
+			tab++;
 		}
 	}
 }

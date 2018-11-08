@@ -37,17 +37,18 @@ void	ft_maxstr(struct s_params *parameters)
 	}
 }
 
-void	ft_getstatistics(char **tab, struct s_params *parameters)
+void	ft_getstatistics(char **tab, struct s_params *parameters, char *directory)
 {
 	struct stat stat_s;
+	char *file_path;
 	int i;
 
 	i = 0;
-	while (*tab)
+	while (tab[i])
 	{
-		stat(*tab, &parameters[i].statistics);
+		file_path = path_finder(directory, tab[i]);
+		stat(file_path, &parameters[i].statistics);
 		parameters[i].len = ft_tablen(tab);
-		tab++;
 		i++;
 	}
 }
@@ -84,12 +85,12 @@ unsigned int	ft_maxlnk(struct s_params *parameters)
 	return (max);
 }
 
-struct s_params *ft_getparams(char **tab, struct s_params *parameters)
+struct s_params *ft_getparams(char *directory, char **tab, struct s_params *parameters)
 {
 	int i;
 	int maxuidgid[2];
 
-	ft_getstatistics(tab, parameters);
+	ft_getstatistics(tab, parameters, directory);
 	i = 0;
 	while (i < parameters->len)
 	{
@@ -97,7 +98,6 @@ struct s_params *ft_getparams(char **tab, struct s_params *parameters)
 		parameters[i].maxlnk = ft_len(ft_maxlnk(parameters));
 		parameters[i].maxsiz = ft_longlen(ft_maxsiz(parameters));
 		parameters[i].uid = uid_name(parameters[i].statistics.st_uid);
-
 		parameters[i].gid = gid_name(parameters[i].statistics.st_gid);
 		parameters[i].mtime = ft_time(&parameters[i].statistics.st_mtime);
 		i++;

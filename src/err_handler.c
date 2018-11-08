@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   err_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/07 19:44:57 by clingier          #+#    #+#             */
-/*   Updated: 2018/11/03 15:17:23 by clingier         ###   ########.fr       */
+/*   Created: 2018/11/05 14:05:51 by clingier          #+#    #+#             */
+/*   Updated: 2018/11/05 14:05:54 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <ft_ls.h>
 
-void	ft_lstadd(t_list **alst, t_list *new)
+void    ft_malfailed(void *ptr) {
+  if (ptr == NULL)
+  {
+    free(ptr);
+    ft_putstr_fd("Not enough memory!", 2);
+    exit(EXIT_FAILURE);
+  }
+}
+
+void  nodirectory(char *directory)
 {
-	if (!alst || !new)
-		return ;
-	new->next = *alst;
-	*alst = new;
+  ft_putstr_fd("ls: ", 2);
+  perror(directory);
 }

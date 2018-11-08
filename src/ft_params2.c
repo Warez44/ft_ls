@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_params2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clingier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/07 19:44:57 by clingier          #+#    #+#             */
-/*   Updated: 2018/11/03 15:17:23 by clingier         ###   ########.fr       */
+/*   Created: 2018/11/06 09:34:29 by clingier          #+#    #+#             */
+/*   Updated: 2018/11/06 09:34:30 by clingier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_ls.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
-{
-	if (!alst || !new)
-		return ;
-	new->next = *alst;
-	*alst = new;
+ char   *path_finder(char *directory, char *filename)
+ {
+   char *file_path;
+   char *temp;
+
+   ft_malfailed(file_path = ft_strjoin(directory, "/"));
+   temp = file_path;
+   ft_malfailed(file_path = ft_strjoin(file_path,filename));
+   free(temp);
+   return(file_path);
 }
